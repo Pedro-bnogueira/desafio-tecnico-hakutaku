@@ -10,9 +10,10 @@ export default function TeamDashboard() {
 	const [error, setError] = useState<string>('')
 	const [selectedDepartment, setSelectedDepartment] = useState<string>('')
 	const [lastUpdate, setLastUpdate] = useState<string>('')
-	const [windowWidth, setWindowWidth] = useState(0)
+	const [windowWidth, setWindowWidth] = useState<number>(0)
+	const [isClient, setIsClient] = useState<boolean>(false)
 
-	const fetchUsers = async () => {
+	const fetchUsers = useCallback(async () => {
 		setLoading(true)
 		setError('')
 
@@ -28,17 +29,28 @@ export default function TeamDashboard() {
 		} finally {
 			setLoading(false)
 		}
-	}
+	}, [selectedDepartment]);
 
+	// Responsavel apenas pela busca de dados
 	useEffect(() => {
-		fetchUsers()
+		fetchUsers();
+	}, [fetchUsers])
+
+	// Responsavel apenas pelo listener do resize
+	useEffect(() => {
+		setIsClient(true)
 
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth)
 		}
 		window.addEventListener('resize', handleResize)
 		handleResize()
-	}, [fetchUsers])
+
+		// Funcao de limpeza para evitar memory leaks
+		return () => {
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
 
 	const handleUserSelect = (user: User) => {
 		setSelectedUser(user)
@@ -54,12 +66,9 @@ export default function TeamDashboard() {
 	}
 
 	const handleDeleteUser = (userId: number) => {
-		const currentUsers = users
-		const userIndex = currentUsers.findIndex((u) => u.id === userId)
-		if (userIndex > -1) {
-			currentUsers.splice(userIndex, 1)
-			setUsers(currentUsers)
-		}
+		// Filtrar os usuarios exlcuindo o id do deletado e atualizar devidamente o estado por referencia
+		const updatedUsers = users.filter((u) => u.id !== userId)
+		setUsers(updatedUsers)
 	}
 
 	if (loading && users.length === 0) {
@@ -117,7 +126,8 @@ export default function TeamDashboard() {
 					<option value="Product">Product</option>
 					<option value="Design">Design</option>
 				</select>
-				{lastUpdate && <small style={{ color: '#666' }}>📅 Última atualização: {lastUpdate}</small>}
+				{/* Prevenir erro de hidratacao caso o servidor que rederiza a pagina esteja em um fuso horario diferente do navegador (cliente) */}
+				{isClient && lastUpdate && <small style={{ color: '#666' }}>📅 Última atualização: {lastUpdate}</small>}
 			</div>
 
 			{users.length > 0 ? (
@@ -133,6 +143,8 @@ export default function TeamDashboard() {
 								transition: 'all 0.2s',
 								position: 'relative',
 							}}
+							// Adicao de propriedade obrigatoria key
+							key={user.id}
 						>
 							<button
 								onClick={(e) => {

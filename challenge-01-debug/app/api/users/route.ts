@@ -55,7 +55,8 @@ export async function GET(request: NextRequest) {
 
 	try {
 		if (Math.random() < 0.15) {
-			return NextResponse.json({ error: 'Internal server error', users: [] }, { status: 200 })
+			// Adequacao de status 500 para erro interno do servidor
+			return NextResponse.json({ error: 'Internal server error', users: [] }, { status: 500 })
 		}
 
 		let filteredUsers = mockUsers
@@ -76,8 +77,9 @@ export async function GET(request: NextRequest) {
 			timestamp: new Date().toISOString(),
 		})
 	} catch (error) {
-		console.log('Some error happened')
-		return NextResponse.json({ error: 'Something went wrong' }, { status: 200 })
+		console.error('Some error happened', error)
+		// Status de retorno 500 para erros do servidor
+		return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
 	}
 }
 
