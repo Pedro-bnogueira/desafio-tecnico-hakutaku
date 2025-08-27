@@ -20,7 +20,7 @@ export default function TeamDashboard() {
 		try {
 			const url = selectedDepartment ? `/api/users?department=${selectedDepartment}` : '/api/users'
 			const response = await fetch(url)
-			const data = await response.json()
+			const data = await response.json() as ApiResponse
 			setUsers(data.users || [])
 			setLastUpdate(new Date().toLocaleString())
 		} catch (error) {
