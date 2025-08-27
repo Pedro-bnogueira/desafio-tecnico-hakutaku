@@ -104,3 +104,8 @@ Existem **6 bugs** reais neste código:
   <br>
   <strong>Divirta-se debuggando! 🚀</strong>
 </div>
+
+---
+
+## 🎥 Vídeo de apresentação da solução:
+https://drive.google.com/file/d/1dpGRoadbMDTgLewXBc_goiAmuyTcClxZ/view?usp=drive_link
