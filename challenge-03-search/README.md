@@ -129,3 +129,7 @@ it('algoritmo calcula scores corretos', async () => {
   <br>
   <strong>Mostre sua abordagem para otimização! 🧠</strong>
 </div>
+
+---
+## 🎥 Vídeo de apresentação da solução:
+https://drive.google.com/file/d/1oVTHb7cgPK07clRr6CG3u7yDHCHEXhUq/view?usp=drive_link
