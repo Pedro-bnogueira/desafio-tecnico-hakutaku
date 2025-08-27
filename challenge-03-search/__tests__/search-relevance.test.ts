@@ -75,3 +75,45 @@ describe('Edge Cases', () => {
 		expect(lowerResults.length).to.equal(mixedResults.length)
 	})
 })
+
+describe('Search Relevance - extras', () => {
+	it('should handle fuzzy typos ("buca")', async () => {
+		const results = await searchKnowledge('buca')
+
+		// Deve achar pelo menos um doc com "busca" no título ou conteúdo
+		const hasBusca = results.some((r) => r.title.toLowerCase().includes('busca') || r.content.toLowerCase().includes('busca'))
+		expect(hasBusca).to.equal(true)
+	})
+
+	it('should normalize scores to [0, 1]', async () => {
+		const results = await searchKnowledge('busca')
+		results.forEach((r) => {
+			expect(r.score).to.be.greaterThan(0)
+			expect(r.score).to.be.at.most(1)
+		})
+	})
+
+	it('should trim whitespace in queries', async () => {
+		const withSpaces = await searchKnowledge('   busca   ')
+		const clean = await searchKnowledge('busca')
+
+		expect(withSpaces.map((r) => r.id)).to.deep.equal(clean.map((r) => r.id))
+	})
+
+	it('should prioritize title matches over content matches by assigning a higher score', async () => {
+		const results = await searchKnowledge('integração');
+
+		// ID 4: Título contém "Integração"
+		const titleMatch = results.find((r) => r.id === '4');
+
+		// ID 10: Conteúdo contém "integração"
+		const contentMatch = results.find((r) => r.id === '10');
+
+		// Ambos os resultados devem existir
+		expect(titleMatch).to.exist;
+		expect(contentMatch).to.exist;
+
+		// O resultado com correspondência no título deve ter uma pontuação maior
+		expect(titleMatch!.score).to.be.greaterThan(contentMatch!.score);
+	});
+})
