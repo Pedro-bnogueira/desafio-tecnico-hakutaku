@@ -87,3 +87,8 @@ Acesse: `http://localhost:3001`
   <br>
   <strong>Mostre seu estilo de refatoração! 🏗️</strong>
 </div>
+
+---
+
+🎥 Vídeo de apresentação da solução:
+https://drive.google.com/file/d/1ozrW8sBAk0zwJK-d7dp0h7Za14YjeRI6/view?usp=drive_link
