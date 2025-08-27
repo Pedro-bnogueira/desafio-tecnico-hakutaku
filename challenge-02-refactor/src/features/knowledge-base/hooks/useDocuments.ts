@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
-import type { Document } from 'src/types'
+import type { Document } from '@/features/knowledge-base/types'
 
+/**
+ * Hook para buscar a lista de documentos da base de conhecimento
+ *
+ * @returns {{ documents: Document[], loading: boolean }} Um objeto contendo a
+ * lista de documentos e um booleano que indica o estado de carregamento
+ */
 export function useDocuments() {
 	const [documents, setDocuments] = useState<Document[]>([])
 	const [loading, setLoading] = useState(false)

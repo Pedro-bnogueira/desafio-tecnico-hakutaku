@@ -1,17 +1,33 @@
 import styles from './FilterControls.module.css'
 
+// Define as propriedades para o componente FilterControls
 type FilterControlsProps = {
+	// termo de busca
 	searchTerm: string
+	// funcao chamada quando o termo de busca muda
 	onSearchChange: (value: string) => void
+	// categoria selecionada
 	selectedCategory: string
+	// funcao chamada quando a categoria muda
 	onCategoryChange: (value: string) => void
+	// criterio de ordenacao selecionado
 	sortBy: string
+	// funcao chamada quando o criterio de ordenacao muda
 	onSortChange: (value: string) => void
+	// todas as tags disponiveis
 	allTags: string[]
+	// tags selecionadas
 	selectedTags: string[]
+	// funcao chamada quando uma tag e selecionada ou desselecionada
 	onTagToggle: (tag: string) => void
 }
 
+/**
+ * Renderiza todos os controles de filtro e ordenação para a base de conhecimento
+ *
+ * @param {FilterControlsProps} props - As propriedades para controlar o estado dos filtros
+ * @returns {JSX.Element} O formulário contendo todos os campos de filtro
+ */
 export function FilterControls({
 	searchTerm,
 	onSearchChange,

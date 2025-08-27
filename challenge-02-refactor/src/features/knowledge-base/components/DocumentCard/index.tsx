@@ -3,10 +3,19 @@ import { formatDate } from '@/lib/utils/formatDate'
 import { getCategoryColor } from '@/lib/utils/categoryColors'
 import styles from './DocumentCard.module.css'
 
+// Define as propriedades para o componente DocumentCard
 type DocumentCardProps = {
 	doc: Document
 }
 
+/**
+ * Um componente de apresentação que renderiza as informações de um único
+ * documento em um formato de card estilizado
+ *
+ * @param {DocumentCardProps} props - As propriedades do componente
+ * @param {Document} props.doc - O documento a ser exibido no card
+ * @returns {JSX.Element} O componente do card renderizado
+ */
 export function DocumentCard({ doc }: DocumentCardProps) {
 	return (
 		<div className={styles.card}>
